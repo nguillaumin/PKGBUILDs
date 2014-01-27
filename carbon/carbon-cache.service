@@ -1,0 +1,11 @@
+[Unit]
+Description=Carbon network metrics daemon
+
+[Service]
+ExecStart=/usr/bin/carbon-cache.py --config=/var/lib/graphite/conf/carbon.conf --pidfile=/run/carbon-cache.pid start
+ExecStop=/usr/bin/carbon-cache.py --config=/var/lib/graphite/conf/carbon.conf stop
+Type=forking
+PIDFile=/run/carbon-cache.pid
+
+[Install]
+WantedBy=multi-user.target

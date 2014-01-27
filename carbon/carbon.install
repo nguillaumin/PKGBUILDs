@@ -1,0 +1,13 @@
+#!/bin/sh
+
+post_install() {
+        CONF_DIR=/var/lib/graphite/conf
+        cp $CONF_DIR/carbon.conf.example $CONF_DIR/carbon.conf
+        cp $CONF_DIR/storage-schemas.conf.example $CONF_DIR/storage-schemas.conf
+
+        systemctl daemon-reload
+}
+
+pre_remove() {
+        systemctl stop carbon-cache
+}

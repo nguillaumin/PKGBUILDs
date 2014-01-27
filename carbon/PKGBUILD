@@ -1,0 +1,31 @@
+# Maintainer: Nicolas Guillaumin <nicolas plus archlinux at guillaumin dot me>
+pkgname=carbon
+pkgver=0.9.12
+pkgrel=1
+pkgdesc="Carbon is one of the components of Graphite, and is responsible for receiving metrics over the network and writing them down to disk using a storage backend."
+arch=('i686' 'x86_64')
+url="https://github.com/graphite-project/carbon"
+license=('Apache 2.0')
+depends=('python2>=2.6' whisper twisted python2-daemonize)
+makedepends=(patch)
+checkdepends=()
+source=(https://github.com/graphite-project/$pkgname/archive/$pkgver.zip
+        carbon-daemonize.patch
+        carbon-cache.service)
+md5sums=('2eb6aba17c36426115c548d5563661bf'
+         '3af0154c41744131e0b33876344e882b'
+         'b79a160bd3b5163fb7bf3edb2efc7689')
+install=carbon.install
+backup=(var/lib/graphite/conf/carbon.conf)
+
+prepare() {
+        cd $srcdir/$pkgname-$pkgver
+        patch -p1 < $srcdir/carbon-daemonize.patch
+}
+
+package() {
+        SITE=`python2 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"`
+        cd $srcdir/$pkgname-$pkgver
+        python2 setup.py install --install-scripts=$pkgdir/usr/bin --install-lib=$pkgdir/$SITE --install-data=$pkgdir/var/lib/graphite
+        install -Dm644 $srcdir/carbon-cache.service $pkgdir/usr/lib/systemd/system/carbon-cache.service
+}

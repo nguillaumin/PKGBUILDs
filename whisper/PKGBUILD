@@ -1,0 +1,18 @@
+# Maintainer: Nicolas Guillaumin <nicolas plus archlinux at guillaumin dot me>
+pkgname=whisper
+pkgver=0.9.12
+pkgrel=1
+pkgdesc="Whisper is one of the components of Graphite, and is responsible for the backend storage of incoming metrics from the network."
+arch=('i686' 'x86_64')
+url="https://github.com/graphite-project/whisper"
+license=('Apache 2.0')
+depends=('python2>=2.6')
+makedepends=()
+checkdepends=()
+source=(https://github.com/graphite-project/$pkgname/archive/$pkgver.zip)
+md5sums=('6fccb099166bc06b31c1cb246d59104a')
+
+package() {
+        cd $srcdir/$pkgname-$pkgver
+        python2 setup.py install --root="$pkgdir"
+}

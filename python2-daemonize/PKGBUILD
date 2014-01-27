@@ -1,0 +1,21 @@
+# Maintainer: Nicolas Guillaumin <nicolas plus archlinux at guillaumin dot me>
+_pythonmod=daemonize
+pkgname=python2-daemonize
+pkgver=2.2.1
+pkgrel=1
+pkgdesc="Library to enable your code run as a daemon process on Unix-like systems."
+arch=('i686' 'x86_64')
+url="https://pypi.python.org/pypi/$_pythonmod/2.2.1"
+license=('MIT')
+depends=('python2')
+makedepends=('python2-setuptools')
+options=(!emptydirs)
+source=(https://pypi.python.org/packages/source/d/$_pythonmod/$_pythonmod-$pkgver.tar.gz)
+md5sums=('3b4b93c031cf3ad9fab4bc393db5e82b')
+
+package() {
+  cd "$srcdir/$_pythonmod-$pkgver"
+  python2 setup.py install --root="$pkgdir/" --optimize=1
+}
+
+# vim:set ts=2 sw=2 et:
